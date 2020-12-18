@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"firebase.google.com/go/auth"
 	"fmt"
-	"log"
+	"github.com/Emojigamble/utility/logger"
+	"github.com/Emojigamble/vault/routes"
 	"net/http"
 	"os"
 	"strings"
@@ -50,14 +51,21 @@ type TicTacToeMove struct {
 }
 
 func main() {
+	log := logger.EmojigambleLogger{
+		ActiveLogLevels: logger.AllLogLevels(),
+		LogToDatabase:   false,
+	}
+
 	server, _ := socketio.NewServer(nil)
 
 	client, err := setupFirebase("emojigamble-key.json")
 	if err != nil {
-		log.Fatalf(err.Error())
+		log.Log(err.Error(), logger.ErrorLogLevel)
 	}
 
 	fmt.Sprint("vault", os.Getenv("HOSTNAME"))
+
+	routes.RegisterConnectListener(server, client, context.Background(), log)
 
 	server.OnEvent("/", "notice", func(s socketio.Conn, msg string) {
 		fmt.Println("notice:", msg)
@@ -83,8 +91,8 @@ func main() {
 	defer server.Close()
 
 	http.Handle("/socket.io/", corsMiddleware(server))
-	log.Println("Serving at localhost:8000...")
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Log("Serving at localhost:8000...", logger.BaseLogLevel)
+	log.Log(http.ListenAndServe(":8000", nil).Error(), logger.WarnLogLevel)
 }
 
 func setupFirebase(keyFile string) (*auth.Client, error) {
