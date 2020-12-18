@@ -1,4 +1,4 @@
-module github.com/adwirawien/Emojigamble/vault
+module github.com/Emojigamble/vault
 
 go 1.15
 

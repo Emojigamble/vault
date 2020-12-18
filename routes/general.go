@@ -3,7 +3,7 @@ package routes
 import (
 	"context"
 	"firebase.google.com/go/auth"
-	"github.com/adwirawien/Emojigamble/utility/logger"
+	"github.com/Emojigamble/utility/logger"
 	socketio "github.com/googollee/go-socket.io"
 )
 
