@@ -41,3 +41,33 @@ type GameJoinResponse struct {
 	Game dao.Game `json:"game"`
 }
 
+func RegisterGameJoinListeners(server *socketio.Server, client *auth.Client, context context.Context, log logger.EmojigambleLogger) {
+	server.OnEvent("/", "searchPublicGame", func(s socketio.Conn, data string) {
+		response := GameJoinResponse{
+			Request: nil,
+			Error:   nil,
+			Game:    nil,
+		}
+		defer marshalAndSendInterface(s, "gameJoinResponse", response)
+
+		publicGameRequest := PublicGameSearchRequest{}
+		err := json.Unmarshal([]byte(data), &publicGameRequest)
+		if err != nil {
+			log.Log(fmt.Sprint(err, "while parsing 'searchPublicGame' Request payload!"), logger.MatchMakingLogLevel)
+
+			response.Error = dao.PayloadParsingError
+			return
+		}
+
+		response.Request = *publicGameRequest.GeneralGameRequest
+
+		// TODO: verify user and get userdata
+		// TODO: check if user has game access
+		// TODO: create new game or assign existing
+	})
+}
+
+func marshalAndSendInterface(s socketio.Conn, event string, data interface{}) {
+	response, _ := json.Marshal(data)
+	s.Emit(event, response)
+}
