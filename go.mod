@@ -5,7 +5,7 @@ go 1.15
 require (
 	cloud.google.com/go/firestore v1.4.0 // indirect
 	firebase.google.com/go v3.13.0+incompatible
-	github.com/Emojigamble/utility/logger v0.0.0-00010101000000-000000000000
+	github.com/Emojigamble/utility/logger v0.0.0-20201221101255-3393e09df1ff
 	github.com/Emojigamble/utility/middleware v0.0.0-00010101000000-000000000000
 	github.com/Emojigamble/utility/setup v0.0.0-00010101000000-000000000000
 	github.com/googollee/go-socket.io v1.4.4

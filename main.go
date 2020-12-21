@@ -13,11 +13,16 @@ import (
 )
 
 func main() {
+	hostname, _ := os.Hostname()
+
 	// define logger
 	log := logger.EmojigambleLogger{
+		LogOrigin:       fmt.Sprintf("vault-%s", hostname),
 		ActiveLogLevels: logger.AllLogLevels(),
 		LogToDatabase:   false,
 	}
+	log.Log("Starting vault...", logger.BaseLogLevel)
+
 	// get environment variables
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -45,6 +50,7 @@ func main() {
 	corsMiddleware := middleware.CorsMiddleware{
 		AllowedOrigins: []string{"localhost:3000"},
 		AllowedHeaders: "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization",
+		Logger:         log,
 	}
 
 	go server.Serve()
@@ -54,5 +60,3 @@ func main() {
 	log.Log(fmt.Sprintf("Serving at %v", port), logger.BaseLogLevel)
 	log.Log(fmt.Sprint(http.ListenAndServe(port, nil)), logger.WarnLogLevel)
 }
-
-
