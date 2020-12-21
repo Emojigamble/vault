@@ -15,6 +15,7 @@ type GeneralGameRequest struct {
 	Type string `json:"type"`
 }
 
+// TokenizedRequest adds a Token field to any struct.
 type TokenizedRequest struct {
 	Token string `json:"token"`
 }
@@ -37,8 +38,8 @@ type PrivateGameJoinRequest struct {
 // Response after a client requested to join a game.
 type GameJoinResponse struct {
 	Request GeneralGameRequest `json:"request"`
-	Error dao.CommonError `json:"error"`
-	Game dao.Game `json:"game"`
+	Error   dao.CommonError    `json:"error"`
+	Game    dao.Game           `json:"game"`
 }
 
 func RegisterGameJoinListeners(server *socketio.Server, client *auth.Client, context context.Context, log logger.EmojigambleLogger) {
