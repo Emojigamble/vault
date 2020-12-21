@@ -27,7 +27,7 @@ func main() {
 	server, _ := socketio.NewServer(nil)
 
 	// setup firebase
-	client, err := setup.SetupFirebaseAuthClient(context.Background(), "emojigamble-key.json")
+	client, err := setup.FirebaseAuthClient(context.Background(), "emojigamble-key.json")
 	if err != nil {
 		log.Log(fmt.Sprint(err), logger.ErrorLogLevel)
 	}
