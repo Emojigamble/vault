@@ -44,9 +44,9 @@ type GameJoinResponse struct {
 func RegisterGameJoinListeners(server *socketio.Server, client *auth.Client, context context.Context, log logger.EmojigambleLogger) {
 	server.OnEvent("/", "searchPublicGame", func(s socketio.Conn, data string) {
 		response := GameJoinResponse{
-			Request: nil,
-			Error:   nil,
-			Game:    nil,
+			Request: GeneralGameRequest{},
+			Error:   dao.CommonError{},
+			Game:    dao.Game{},
 		}
 		defer marshalAndSendInterface(s, "gameJoinResponse", response)
 
