@@ -17,7 +17,7 @@ func main() {
 
 	// define logger
 	log := logger.EmojigambleLogger{
-		LogOrigin:       fmt.Sprintf("vault-%s", hostname),
+		LogOrigin:       fmt.Sprintf("vault->%s", hostname),
 		ActiveLogLevels: logger.AllLogLevels(),
 		LogToDatabase:   false,
 	}
